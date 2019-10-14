@@ -117,7 +117,7 @@ print(Runge_Kutta( 1.0 , 0.0 , 0.05 , 4 , f))'''
 
 print("Adams_Bashforth")
 
-def Adams_Bashforth(y0 , t0 , h , n , f , ordem): #ta imcompleto
+def Adams_Bashforth(y0 , t0 , h , n , f , ordem): #ta incompleto
 
     coefM = [
 			[1.0],
@@ -131,3 +131,53 @@ def Adams_Bashforth(y0 , t0 , h , n , f , ordem): #ta imcompleto
 			]
 
     t,y = symbols('t y')
+
+
+
+
+
+'''def main():
+        for entry in sys.stdin:
+		    entrada = str(entry).split()
+
+            metodo = entrada[0]
+
+		if(metodo == 'euler'):
+			y0 = float(entrada[1])
+			t0 = float(entrada[2])
+			h = float(entrada[3])
+			n = int(entrada[4])
+			funct = parse_expr(entrada[5])
+
+			Euler(y0,t0,h,n,funct)
+			print()
+
+		elif(metodo == 'euler_inverso'):
+			y0 = float(entrada[1])
+			t0 = float(entrada[2])
+			h = float(entrada[3])
+			n = int(entrada[4])
+			funct = parse_expr(entrada[5])
+
+			Euler_Inverso(y0,t0,h,n,funct)
+			print()
+
+		elif(metodo == 'euler_aprimorado'):
+			y0 = float(entrada[1])
+			t0 = float(entrada[2])
+			h = float(entrada[3])
+			n = int(entrada[4])
+			funct = parse_expr(entrada[5])
+
+			Euler_Aprimorado(y0,t0,h,n,funct)
+			print()
+
+		elif(metodo == 'runge_kutta'):
+			y0 = float(entrada[1])
+			t0 = float(entrada[2])
+			h = float(entrada[3])
+			n = int(entrada[4])
+			funct = parse_expr(entrada[5])
+
+			Runge_Kutta(y0,t0,h,n,funct)
+			print()'''
