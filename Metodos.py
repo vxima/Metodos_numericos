@@ -285,7 +285,7 @@ print(Runge_Kutta( 1.0 , 0.0 , 0.05 , 4 , f))'''
 
 
 
-def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta incompleto
+def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcionando
     print("Metodo de Adam-Bashforth"+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
@@ -340,7 +340,7 @@ def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta incomple
     
     return
 
-def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''):
+def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''): #ta funcionando
     print('Metodo de Adam-multon'+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
@@ -401,7 +401,7 @@ def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''):
     matplot.show()
     return
 
-def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''):
+def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcionando
     print('Metodo de Formula Inversa'+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
