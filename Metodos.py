@@ -189,7 +189,7 @@ def Euler_Inverso ( y0 , t0 , h , n , f):#ta aproximado
     
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Euler Inverso')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     return 
@@ -223,7 +223,7 @@ def Euler_Aprimorado(y0 , t0 , h , n , f): #Ta funcionando
 
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Euler Aprimorado')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     return 
@@ -274,7 +274,7 @@ def Runge_Kutta(y0 , t0 , h , n , f): #Ta funcionando
 
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Runge-Kutta')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     return 
@@ -334,7 +334,7 @@ def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta incomple
 
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Adam-Bashforth')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     
@@ -396,7 +396,7 @@ def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''):
     
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Adam-Multon')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     return
@@ -461,7 +461,7 @@ def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''):
     
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Euler')
+    matplot.title('Metodo de Formula Inversa')
     matplot.plot(tlist , ylist , color='blue')
     matplot.show()
     return 
