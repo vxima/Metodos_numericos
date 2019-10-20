@@ -48,7 +48,7 @@ def Adam_BashforthImplicito(Yant , t0 , h  , f , ordem):
     inclinacao = 0.0
 
     for k in range(len(coeficientes[ordem - 1])):
-        auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*k)),y:float(Yant[len(Yant)-j-1])})
+        auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*k)),y:float(Yant[len(Yant)-k-1])})
         inclinacao = inclinacao + auxiliar
 
     yn = yn + inclinacao
@@ -92,12 +92,15 @@ def ListaEuler_aprimorado(y0 , t0 , h , f , ordem):
     ylist.append(float(y0)) 
     n = ordem -1
     for j in range(n):
+        #K2
         k1 = f.subs({t:t0, y:y0})
 
+        #K2
         auxt = t0 + h
         auxy = y0 + h*k1
-
         k2 = f.subs({t:auxt, y:auxy})
+
+
         y0 = y0 + (h/2)*(k1+k2)
         t0 = t0 + h
         ylist.append(y0) 
@@ -177,7 +180,7 @@ def Euler_Inverso ( y0 , t0 , h , n , f):#ta aproximado
     t,y = symbols('t y')
     tlist=[t0]
     ylist=[y0]
-    for j in range(n):
+    for j in range(n+1):
         print(j,' ',y0)
         auxt = t0 + h
         auxy = EulerImplicito(y0 , t0 , h  , f)
@@ -190,7 +193,7 @@ def Euler_Inverso ( y0 , t0 , h , n , f):#ta aproximado
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
     matplot.title('Metodo de Euler Inverso')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.plot(tlist , ylist , color='red')
     matplot.show()
     return 
 
@@ -224,7 +227,7 @@ def Euler_Aprimorado(y0 , t0 , h , n , f): #Ta funcionando
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
     matplot.title('Metodo de Euler Aprimorado')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.plot(tlist , ylist , color='yellow')
     matplot.show()
     return 
 
@@ -266,7 +269,6 @@ def Runge_Kutta(y0 , t0 , h , n , f): #Ta funcionando
         k4_auxy = y0 + h*k3
         k4 = f.subs({t:k4_auxt, y:k4_auxy})
 
-
         y0 = y0 + (h/6)*(k1 + 2*k2 + 2*k3 + k4)
         t0 = t0 + h
         ylist.append(float(y0)) 
@@ -275,17 +277,20 @@ def Runge_Kutta(y0 , t0 , h , n , f): #Ta funcionando
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
     matplot.title('Metodo de Runge-Kutta')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.plot(tlist , ylist , color='green')
     matplot.show()
     return 
 
-'''funcao= input("Bote sua função ai \n")
+'''#funcao que testa 
+funcao= input("Bote sua função ai \n")
 f = parse_expr(funcao)
 print(Runge_Kutta( 1.0 , 0.0 , 0.05 , 4 , f))'''
 
 
 
 def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcionando
+    #ta pegando para ordem = numero de pontos anteriores
+
     print("Metodo de Adam-Bashforth"+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
@@ -304,7 +309,7 @@ def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta funciona
     t,y = symbols('t y')
 
     tn = t0
-    yn = float(Yant[len(Yant) - 1])
+    yn = float(Yant[len(Yant) - 1]) #pega ultimo valor da lista de y anteriores
 
     ylist = []
     tlist = []
@@ -321,7 +326,7 @@ def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta funciona
         inclinacao = 0.0
 
         for k in range(len(coeficientes[ordem - 1])):
-            auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*k)),y:float(Yant[len(Yant)-j-1])})
+            auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*k)),y:float(Yant[len(Yant)-k-1])})
             inclinacao = inclinacao + auxiliar
 
         yn = yn + inclinacao
@@ -334,13 +339,15 @@ def Adam_Bashforth(Yant , t0 , h , n , f , ordem , complemento=''): #ta funciona
 
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Adam-Bashforth')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.title('Metodo de Adam-Bashforth' + complemento)
+    matplot.plot(tlist , ylist , color='orange')
     matplot.show()
     
     return
 
 def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''): #ta funcionando
+    #ta pegando para ordem = numero de pontos anteriores
+
     print('Metodo de Adam-multon'+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
@@ -376,19 +383,21 @@ def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''): #ta funcionando
         inclinacao = 0.0
 
         #parte que calcula Yn+1
-        t1 = t0 + h
-        previsao = Adam_BashforthImplicito(Yant , t0 , h , f , ordem)
+        t1 = tn + h
+        previsao = Adam_BashforthImplicito(Yant , tn , h , f , ordem)
         Yn1  = h*coeficientes[ordem-1][0]*f.subs({t:t1 , y:previsao})
 
         inclinacao = inclinacao + Yn1
 
         for k in range(1 , len(coeficientes[ordem - 1]), 1):
-            auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*(k-1))),y:float(Yant[len(Yant)-(j-1)-1])})
+            auxiliar = h*coeficientes[ordem -1][k]*f.subs({t:(tn - (h*(k-1))),y:float(Yant[len(Yant)-(k-1)-1])})
             inclinacao = inclinacao + auxiliar
 
 
         yn = yn + inclinacao
         tn = tn + h 
+
+        Yant.append(yn)
 
         print(j,' ', yn)
         ylist.append(yn)
@@ -396,15 +405,19 @@ def Adam_Multon(Yant, t0 , h , n , f , ordem , complemento=''): #ta funcionando
     
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Adam-Multon')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.title('Metodo de Adam-Multon' + complemento)
+    matplot.plot(tlist , ylist , color='purple')
     matplot.show()
     return
 
 def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcionando
-    print('Metodo de Formula Inversa'+complemento)
+    #ta pegando para ordem = numero de pontos anteriores
+
+    print('Metodo de Formula Inversa de Diferenciacao'+complemento)
     print('y({}) = {}'.format(t0,Yant[0]))
     print('h = {}'.format(h))
+
+    yn = y0
 
     coeficientes_Yn = [
             [1.0],
@@ -424,6 +437,7 @@ def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcion
 			[60.0/147.0],
 			]
     
+    tn = t0
     
     t,y = symbols('t y')
     ylist = []
@@ -439,21 +453,23 @@ def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcion
 
         inclinacao = 0.0
 
-        #parte que calcula Yn+1
-        t1 = t0 + h
-        previsao = Adam_BashforthImplicito(Yant , t0 , h , f , ordem)
-        Yn1  = h*coeficientes_Yn[ordem-1][0]*f.subs({t:t1 , y:previsao})
+        #parte que calcula fn+1
+        t1 = tn + h
+        previsao = Adam_BashforthImplicito(Yant , tn , h , f , ordem)
+        fn1  = h*coeficientes_Fn[ordem-1][0]*f.subs({t:t1 , y:previsao})
 
-        inclinacao = inclinacao + Yn1
+        inclinacao = inclinacao + fn1
 
         
-        for k in range(1 , len(coeficientes_Yn[ordem - 1]), 1):
-            auxiliar = h*coeficientes_Fn[ordem -1][k]*f.subs({t:(tn - (h*(k-1))),y:float(Yant[len(Yant)-(j-1)-1])})
+        #parte que calcula os yn
+        for k in range(len(coeficientes_Yn[ordem - 1])):
+            auxiliar = coeficientes_Yn[ordem -1][k]*Yant[len(Yant)-k-1]
             inclinacao = inclinacao + auxiliar
 
 
-        yn = yn + inclinacao
+        yn = inclinacao
         tn = tn + h 
+        Yant.append(yn)
 
         print(j,' ', yn)
         ylist.append(yn)
@@ -461,8 +477,8 @@ def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcion
     
     matplot.xlabel('t')
     matplot.ylabel('y(t)')
-    matplot.title('Metodo de Formula Inversa')
-    matplot.plot(tlist , ylist , color='blue')
+    matplot.title('Metodo de Formula Inversa de Diferenciacao' + complemento)
+    matplot.plot(tlist , ylist , color='violet')
     matplot.show()
     return 
 
@@ -471,8 +487,8 @@ def Formula_inversa(Yant , t0 , h , n , f , ordem , complemento=''): #ta funcion
 
 if __name__ == "__main__":
 
-    for arquivo in sys.stdin:
-        entrada = str(arquivo).split()
+    for arquivo in sys.stdin: # lê cada linha do arquivo
+        entrada = str(arquivo).split() #divide a linha da entrada
 
         metodo = entrada[0] 
 
@@ -516,13 +532,14 @@ if __name__ == "__main__":
             Runge_Kutta(y0 , t0 , h , n , f)
             print()  
 
-        elif(metodo == 'adam_bashforth'):
+        elif(metodo == 'adam_bashforth'):#ta pegando para ordem = numero de pontos anteriores
+
             ylist = []
             tam = len(entrada)
 
             
             #funcao que pega os valores anteriores 
-            for j in range(int(entrada[tam -1])) :
+            for j in range(int(entrada[tam -1])):
                 ylist.append(entrada[j+1])
                 ylist[j] = float(ylist[j])
 
@@ -589,7 +606,7 @@ if __name__ == "__main__":
             print()    
         
 
-        elif(metodo == 'adam_multon'):
+        elif(metodo == 'adam_multon'): #ta pegando para ordem = numero de pontos anteriores
 
             ylist = []
             tam = len(entrada)
@@ -661,7 +678,8 @@ if __name__ == "__main__":
             Adam_Multon(ylist , t0 , h , n , f , ordem , ' por Runge-Kutta ( ordem = {} )'.format(ordem))
             print()
 
-        elif(metodo == 'formula_inversa'):
+        elif(metodo == 'formula_inversa'):#ta pegando para ordem = numero de pontos anteriores
+
 
             ylist = []
             tam = len(entrada)
